@@ -40,14 +40,14 @@ $ curl -I http://<public-ip>
 HTTP/1.1 200 OK
 Server: Apache
 ```
-Nginx welcome page loaded in the browser.
+Apache welcome page loaded in the browser.
 
 ## Key learning
 | Symptom | Likely cause | Check |
 |---|---|---|
 | Timeout | Security group / NACL / route table | Network path |
 | Connection refused | Service not running | `systemctl status`, `ss -tlnp` |
-| 502/503/404 | Web server is reachable but app/config is wrong | Nginx logs, app status |
+| 502/503/404 | Web server is reachable but app/config is wrong | APache logs, app status |
 
 - Same logic as SSH: timeout = network, refused = service
 - A website can fail at 3 layers: network, web server, application. Check them in that order
@@ -55,8 +55,8 @@ Nginx welcome page loaded in the browser.
 ## Commands used
 ```
 curl -v http://<public-ip>
-sudo systemctl status nginx
-sudo systemctl start nginx
+sudo systemctl status httpd
+sudo systemctl start httpd
 sudo ss -tlnp | grep :80
-sudo tail -f /var/log/nginx/error.log
+sudo tail -f /var/log/httpd/error.log
 ```
