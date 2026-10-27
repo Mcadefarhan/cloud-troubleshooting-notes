@@ -2,7 +2,8 @@
 # SSH connection timeout on EC2
 
 ## Symptom
-Running `ssh -i key.pem ec2-user@<ip>` returns "Connection timed out".
+Running  ssh -i "my-example-key.pem" ec2-user@ec2-3-example-159-231.ap-southeast-2.compute.amazonaws.com returns
+"ssh: connect to host ec2-3-26-159-231.ap-southeast-2.compute.amazonaws.com port 22: Connection timed out".
 
 ## Environment
 - AWS EC2 (t3.micro, Amazon Linux)
