@@ -43,13 +43,24 @@ Enabled **DNS resolution** in VPC settings (Actions → Edit VPC settings).
 
 ## Verification
 ```
-[ec2-user@ny-ip ~]$ curl -I https://google.com
+[ec2-user@my-ip ~]$ curl -I https://google.com
 HTTP/2 301
 location: https://www.google.com/
 content-type: text/html; charset=UTF-8
 content-security-policy-report-only: object-src 'none';base-uri 'self';script-src 'nonce-hi_jz6mv-a1NnRe65dhUGw' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp
 date: Wed, 28 Oct 2026 06:34:22 GMT
 expires: Fri, 27 Nov 2026 06:34:22 GMT
+
+[ec2-user@my-ip ~]$ ping -c 3 google.com
+PING google.com (172.217.25.206) 56(84) bytes of data.
+64 bytes from nrt12s13-in-f14.1e100.net (172.217.25.206): icmp_seq=1 ttl=115 time=0.882 ms
+64 bytes from nrt12s13-in-f14.1e100.net (172.217.25.206): icmp_seq=2 ttl=115 time=0.889 ms
+64 bytes from nrt12s13-in-f14.1e100.net (172.217.25.206): icmp_seq=3 ttl=115 time=0.951 ms
+
+--- google.com ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 0.882/0.907/0.951/0.031 ms
+
 ```
 
 ## Key learning
