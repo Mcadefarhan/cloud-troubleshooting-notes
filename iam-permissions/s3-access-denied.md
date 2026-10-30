@@ -4,8 +4,10 @@
 An IAM user gets "Access Denied" when trying to list objects from an S3 bucket:
 
 ```
-$ aws s3 ls s3://<bucket-name>
-aws: [ERROR]: An error occurred (AccessDenied) when calling the ListObjectsV2 operation: User: arn:aws:iam::<account-id>:user/test-user is not authorized to perform: s3:ListBucket on resource: "arn:aws:s3:::<bucket-name>" because no identity-based policy allows the s3:ListBucket action
+$  aws s3 ls s3://demozz
+
+aws: [ERROR]: An error occurred (AccessDenied) when calling the ListObjectsV2 operation: User: arn:aws:iam::random:user/example-user is not authorized to perform: s3:ListBucket on resource: "arn:aws:s3:::demoz" because no identity-based policy allows the s3:ListBucket action
+
 ```
 
 ![AccessDenied error in terminal]
@@ -52,19 +54,25 @@ Attached a least-privilege inline policy allowing `s3:ListBucket` on the bucket 
 }
 ```
 
-![Policy attached to the IAM user](https://github.com/user-attachments/...)
+![Policy attached to the IAM user]
+<img width="1460" height="480" alt="Screenshot 2026-10-30 184849" src="https://github.com/user-attachments/assets/cc0a7cfe-471e-454e-8404-aff56b8550de" />
+
 *Permissions tab of the IAM user after attaching the policy*
 
 ## Verification
 ```
-$ aws s3 ls s3://<bucket-name>
-2026-10-29 10:15:00         12 test.txt
+farha@LAPTOP-46R52sa MINGW64 ~/downloads
+$ aws s3 ls s3://demozz
+2026-10-30 18:21:18        152 normal.txt
+
 
 $ aws s3 cp s3://<bucket-name>/test.txt .
 download: s3://<bucket-name>/test.txt to ./test.txt
 ```
 
-![Successful S3 listing](https://github.com/user-attachments/...)
+![Successful S3 listing]
+<img width="471" height="77" alt="Screenshot 2026-10-30 184913" src="https://github.com/user-attachments/assets/cbece0b5-278c-48c7-99ef-8211fc72e4ee" />
+
 *Successful listing after the policy was attached*
 
 ## Key learning
