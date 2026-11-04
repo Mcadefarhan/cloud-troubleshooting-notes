@@ -1,22 +1,20 @@
-
 # EC2 cannot access S3 (IAM role missing)
 
 ## Symptom
 Running an AWS CLI command from inside an EC2 instance fails:
 
 ```
+$ aws s3 ls s3://pracgtizee
 aws: [ERROR]: An error occurred (NoCredentials): Unable to locate credentials. You can configure credentials by running "aws login".
-
 ```
 
-<img width="1261" height="35" alt="image" src="https://github.com/user-attachments/assets/d1547285-32df-4c62-82f6-74fe830096fb" />
-
+<img width="1261" height="35" alt="Unable to locate credentials error" src="https://github.com/user-attachments/assets/d1547285-32df-4c62-82f6-74fe830096fb" />
 
 *Error from inside the EC2 instance with no IAM role attached*
 
 ## Environment
 - AWS EC2 (t3.micro, Amazon Linux 2023, AWS CLI preinstalled)
-- S3 bucket `demozz` with one test object
+- S3 bucket `pracgtizee` with one test object
 - Region: ap-southeast-2 (Sydney)
 - No IAM role attached to the instance
 
@@ -34,8 +32,27 @@ Launched an EC2 instance without an IAM instance profile, connected over SSH, an
 The instance had no IAM role attached, so the AWS CLI had no credentials to sign requests with.
 
 ## Fix
-1. Created an IAM role (trusted entity: EC2) with an inline policy allowing `s3:ListBucket` on `demozz` and `s3:GetObject` on `demozz/*`
-2. Attached it via EC2 → Actions → Security → Modify IAM role
+1. Created an IAM role (trusted entity: EC2) with an inline policy allowing `s3:ListBucket` on `pracgtizee` and `s3:GetObject` on `pracgtizee/*`:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["s3:ListBucket"],
+      "Resource": "arn:aws:s3:::pracgtizee"
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["s3:GetObject"],
+      "Resource": "arn:aws:s3:::pracgtizee/*"
+    }
+  ]
+}
+```
+
+2. Attached the role via EC2 → Actions → Security → Modify IAM role
 
 <img width="..." height="..." alt="IAM role attached to the instance" src="https://github.com/user-attachments/assets/..." />
 
@@ -47,10 +64,10 @@ $ aws sts get-caller-identity
 {
     "UserId": "AROA...:i-...",
     "Account": "<account-id>",
-    "Arn": "arn:aws:sts::<account-id>:assumed-role/ec2-s3-read-demozz/i-..."
+    "Arn": "arn:aws:sts::<account-id>:assumed-role/ec2-s3-read-pracgtizee/i-..."
 }
 
-$ aws s3 ls s3://demozz
+$ aws s3 ls s3://pracgtizee
 2026-10-30 18:21:18        152 normal.txt
 ```
 
@@ -67,7 +84,7 @@ $ aws s3 ls s3://demozz
 
 ## Commands used
 ```
-aws s3 ls s3://demozz
+aws s3 ls s3://pracgtizee
 aws sts get-caller-identity
 aws configure list
 ```
