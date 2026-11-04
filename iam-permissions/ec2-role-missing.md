@@ -73,7 +73,7 @@ $ aws s3 ls s3://pracgtizee
 ```
 ```
 
-<img width="530" height="50" alt="Screenshot 2026-11-04 230301" src="https://github.com/user-attachments/assets/63565648-0a45-4718-b217-bdf30b3a7eba" />
+<img width="530" height="50" alt="Successful S3 listing from EC2" src="https://github.com/user-attachments/assets/63565648-0a45-4718-b217-bdf30b3a7eba" />
 
 
 *Successful listing from the instance after attaching the role*
