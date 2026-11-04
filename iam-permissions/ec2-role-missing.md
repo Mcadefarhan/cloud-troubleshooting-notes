@@ -1,1 +1,73 @@
 
+# EC2 cannot access S3 (IAM role missing)
+
+## Symptom
+Running an AWS CLI command from inside an EC2 instance fails:
+
+```
+aws: [ERROR]: An error occurred (NoCredentials): Unable to locate credentials. You can configure credentials by running "aws login".
+
+```
+
+<img width="1261" height="35" alt="image" src="https://github.com/user-attachments/assets/d1547285-32df-4c62-82f6-74fe830096fb" />
+
+
+*Error from inside the EC2 instance with no IAM role attached*
+
+## Environment
+- AWS EC2 (t3.micro, Amazon Linux 2023, AWS CLI preinstalled)
+- S3 bucket `demozz` with one test object
+- Region: ap-southeast-2 (Sydney)
+- No IAM role attached to the instance
+
+## How I reproduced it
+Launched an EC2 instance without an IAM instance profile, connected over SSH, and ran an S3 command from inside it.
+
+## Troubleshooting steps
+1. Read the error: "Unable to locate credentials" means the CLI found no credentials at all. This is different from AccessDenied
+2. Ran `aws sts get-caller-identity`: same error, so the instance has no identity
+3. Checked the instance in the console (Security tab): **IAM Role** was empty
+4. Checked `aws configure list`: no access key or profile configured
+5. Decided to attach an IAM role instead of storing access keys on the instance
+
+## Root cause
+The instance had no IAM role attached, so the AWS CLI had no credentials to sign requests with.
+
+## Fix
+1. Created an IAM role (trusted entity: EC2) with an inline policy allowing `s3:ListBucket` on `demozz` and `s3:GetObject` on `demozz/*`
+2. Attached it via EC2 → Actions → Security → Modify IAM role
+
+<img width="..." height="..." alt="IAM role attached to the instance" src="https://github.com/user-attachments/assets/..." />
+
+*Security tab of the instance showing the attached IAM role*
+
+## Verification
+```
+$ aws sts get-caller-identity
+{
+    "UserId": "AROA...:i-...",
+    "Account": "<account-id>",
+    "Arn": "arn:aws:sts::<account-id>:assumed-role/ec2-s3-read-demozz/i-..."
+}
+
+$ aws s3 ls s3://demozz
+2026-10-30 18:21:18        152 normal.txt
+```
+
+<img width="..." height="..." alt="Successful S3 listing from EC2" src="https://github.com/user-attachments/assets/..." />
+
+*Successful listing from the instance after attaching the role*
+
+## Key learning
+- "Unable to locate credentials" = no identity found. "AccessDenied" = identity found, but not allowed. The fixes are different
+- Use IAM roles for EC2. Never store access keys on an instance
+- The role reaches the instance through an **instance profile**, and the credentials come from the instance metadata service (temporary and auto-rotated)
+- After attaching a role, `get-caller-identity` shows an `assumed-role` ARN
+- If a role is attached but access is still denied, check the role's policy, the bucket policy, and any explicit Deny
+
+## Commands used
+```
+aws s3 ls s3://demozz
+aws sts get-caller-identity
+aws configure list
+```
