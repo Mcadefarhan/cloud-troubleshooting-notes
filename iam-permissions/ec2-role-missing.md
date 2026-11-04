@@ -61,17 +61,16 @@ The instance had no IAM role attached, so the AWS CLI had no credentials to sign
 
 ## Verification
 ```
-[ec2-user@ip-172-30-1-63 ~]$ aws sts get-caller-identity
+$ aws sts get-caller-identity
 {
-    "UserId": "AROAQZCNIfakeeeeeeeeee:i-0b7da3dpracticee",
-    "Account": "053demo3900",
-    "Arn": "arn:aws:sts::0538dajja4:assumed-role/s3-read-pragtizz/i-0b7da3no"
+    "UserId": "AROA...:i-...",
+    "Account": "<account-id>",
+    "Arn": "arn:aws:sts::<account-id>:assumed-role/s3-read-pragtizz/i-..."
 }
 
-
-[ec2-user@ip-178practice-ip ~]$  aws s3 ls s3://pracgtizee
+$ aws s3 ls s3://pracgtizee
 2026-11-04 17:12:06        152 normal.txt
-
+```
 ```
 
 <img width="530" height="50" alt="Screenshot 2026-11-04 230301" src="https://github.com/user-attachments/assets/63565648-0a45-4718-b217-bdf30b3a7eba" />
