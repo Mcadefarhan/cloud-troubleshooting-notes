@@ -71,7 +71,6 @@ $ aws sts get-caller-identity
 $ aws s3 ls s3://pracgtizee
 2026-11-04 17:12:06        152 normal.txt
 ```
-```
 
 <img width="530" height="50" alt="Screenshot 2026-11-04 230301" src="https://github.com/user-attachments/assets/550c5197-8e85-401b-b7f6-b5763da0f92d" />
 
