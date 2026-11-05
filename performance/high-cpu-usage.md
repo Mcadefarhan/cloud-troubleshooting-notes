@@ -7,11 +7,11 @@ The instance is slow to respond and CloudWatch shows CPU utilization near 100%.
 $ uptime
  16:58:07 up 4 min,  1 user,  load average: 0.08, 0.02, 0.01
 
-<img width="898" height="360" alt="Screenshot 2026-11-05 222849" src="https://github.com/user-attachments/assets/7676fbeb-031d-4107-89d4-29af9ce5646d" />
 
 
 ```
 
+<img width="898" height="360" alt="Screenshot 2026-11-05 222849" src="https://github.com/user-attachments/assets/4c094290-1bad-45a5-9c71-52b95c12b515" />
 
 
 *top output with one process consuming all CPU*
