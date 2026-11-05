@@ -50,7 +50,6 @@ Stopped the processes:
 ## Verification
 ```
 $ top
-%Cpu(s):  0.3 us,  0.2 sy, ... 99.4 id
 ```
 <img width="897" height="460" alt="image" src="https://github.com/user-attachments/assets/07857f01-6423-4951-9583-4b6949a53725" />
 
