@@ -34,7 +34,7 @@ fallocate -l 5G ~/bigfile2.img
 
 ## Troubleshooting steps
 1. Read the error: "No space left on device" points to disk space (or inodes)
-2. Ran `df -h`: `/` was at 100%
+2. Ran `df -h`: `/` was at 83%
 3. Ran `df -i`: inode usage was low, so the problem was blocks, not inodes
 4. Ran `sudo du -xh / --max-depth=1 | sort -rh | head -5`: `/home` was the largest directory
 5. Ran `du -ah ~ | sort -rh | head -5`: found the large `bigfile` files
