@@ -26,7 +26,6 @@ Started CPU-heavy background processes:
 
 ```
 yes > /dev/null &
-yes > /dev/null &
 ```
 
 ## Troubleshooting steps
@@ -43,7 +42,9 @@ Background `yes` processes were consuming all available CPU.
 Stopped the processes:
 
 ```
-pkill yes
+ pkill yes
+[1]+  Terminated              yes > /dev/null
+
 ```
 
 ## Verification
@@ -51,8 +52,9 @@ pkill yes
 $ top
 %Cpu(s):  0.3 us,  0.2 sy, ... 99.4 id
 ```
+<img width="897" height="460" alt="image" src="https://github.com/user-attachments/assets/07857f01-6423-4951-9583-4b6949a53725" />
 
-<img width="..." height="..." alt="CloudWatch CPU graph after the fix" src="..." />
+
 
 *CPU utilization returning to normal after killing the processes*
 
