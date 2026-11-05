@@ -7,6 +7,9 @@ The instance is slow to respond and CloudWatch shows CPU utilization near 100%.
 $ uptime
  16:58:07 up 4 min,  1 user,  load average: 0.08, 0.02, 0.01
 
+<img width="898" height="360" alt="Screenshot 2026-11-05 222849" src="https://github.com/user-attachments/assets/7676fbeb-031d-4107-89d4-29af9ce5646d" />
+
+
 ```
 
 
